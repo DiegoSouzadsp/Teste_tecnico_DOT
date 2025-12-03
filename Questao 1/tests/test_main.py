@@ -8,7 +8,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from main import app
-from database import Base
+from models import Base
 from routers.books import get_db
 
 # Banco de dados de teste em memória
