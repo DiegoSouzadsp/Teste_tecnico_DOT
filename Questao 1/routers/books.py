@@ -34,3 +34,13 @@ def create_book(book: models.BookCreate, db: Session = Depends(get_db)):
     - **summary**: Resumo do livro (opcional)
     """
     return crud.create_book(db=db, book=book)
+
+@router.get("/", response_model=List[models.BookResponse])
+def read_books(title: Optional[str] = None, author: Optional[str] = None, db: Session = Depends(get_db)):
+    """
+    Consulta livros na biblioteca.
+    
+    - **title**: Filtrar por título (parcial)
+    - **author**: Filtrar por autor (parcial)
+    """
+    return crud.get_books(db=db, title=title, author=author)
