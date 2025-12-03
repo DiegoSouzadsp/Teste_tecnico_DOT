@@ -1,10 +1,6 @@
 from sqlalchemy.orm import Session
-from . import models, schemas
-
-# Nota: schemas será importado de models se estiverem no mesmo arquivo ou separado.
-# No meu models.py eu coloquei os schemas Pydantic também.
-# Vou ajustar o import para refletir isso.
-from .models import Book, BookCreate
+import models
+from models import Book, BookCreate
 
 def get_book(db: Session, book_id: int):
     """
