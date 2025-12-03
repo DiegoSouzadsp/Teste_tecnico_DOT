@@ -33,14 +33,27 @@ def create_book(book: models.BookCreate, db: Session = Depends(get_db)):
     - **publication_date**: Data de publicação (YYYY-MM-DD)
     - **summary**: Resumo do livro (opcional)
     """
+    # Verifica se já existe um livro com o mesmo título e autor
+    db_book = crud.get_book_by_details(db, title=book.title, author=book.author)
+    if db_book:
+        raise HTTPException(status_code=400, detail="Book already registered")
+    
     return crud.create_book(db=db, book=book)
 
 @router.get("/", response_model=List[models.BookResponse])
-def read_books(title: Optional[str] = None, author: Optional[str] = None, db: Session = Depends(get_db)):
+def read_books(
+    title: Optional[str] = None, 
+    author: Optional[str] = None, 
+    skip: int = 0, 
+    limit: int = 100, 
+    db: Session = Depends(get_db)
+):
     """
-    Consulta livros na biblioteca.
+    Consulta livros na biblioteca com paginação e filtros.
     
     - **title**: Filtrar por título (parcial)
     - **author**: Filtrar por autor (parcial)
+    - **skip**: Quantidade de registros para pular (paginação)
+    - **limit**: Quantidade máxima de registros para retornar (padrão 100)
     """
-    return crud.get_books(db=db, title=title, author=author)
+    return crud.get_books(db=db, title=title, author=author, skip=skip, limit=limit)

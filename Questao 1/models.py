@@ -21,9 +21,13 @@ class Book(Base):
 
 # Modelos Pydantic para validação de dados na API
 
+from pydantic import BaseModel, Field
+from typing import Optional
+from datetime import date
+
 class BookBase(BaseModel):
-    title: str
-    author: str
+    title: str = Field(..., min_length=1, description="Título do livro")
+    author: str = Field(..., min_length=1, description="Autor do livro")
     publication_date: date
     summary: Optional[str] = None
 

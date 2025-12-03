@@ -8,16 +8,22 @@ def get_book(db: Session, book_id: int):
     """
     return db.query(Book).filter(Book.id == book_id).first()
 
-def get_books(db: Session, title: str = None, author: str = None):
+def get_books(db: Session, title: str = None, author: str = None, skip: int = 0, limit: int = 100):
     """
-    Busca livros com filtros opcionais de título e autor.
+    Busca livros com filtros opcionais de título e autor, com paginação.
     """
     query = db.query(Book)
     if title:
         query = query.filter(Book.title.contains(title))
     if author:
         query = query.filter(Book.author.contains(author))
-    return query.all()
+    return query.offset(skip).limit(limit).all()
+
+def get_book_by_details(db: Session, title: str, author: str):
+    """
+    Busca um livro específico por título e autor (correspondência exata).
+    """
+    return db.query(Book).filter(Book.title == title, Book.author == author).first()
 
 def create_book(db: Session, book: BookCreate):
     """

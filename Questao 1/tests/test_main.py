@@ -32,8 +32,13 @@ def override_get_db():
 
 app.dependency_overrides[get_db] = override_get_db
 
-# Cria as tabelas no banco de teste
-Base.metadata.create_all(bind=engine)
+@pytest.fixture(autouse=True)
+def run_around_tests():
+    # Setup: Cria tabelas
+    Base.metadata.create_all(bind=engine)
+    yield
+    # Teardown: Remove tabelas após cada teste para garantir isolamento
+    Base.metadata.drop_all(bind=engine)
 
 @pytest.mark.asyncio
 async def test_create_book():
@@ -55,6 +60,19 @@ async def test_create_book():
         data = response.json()
         assert data["title"] == "Test Book"
         assert "id" in data
+
+        # Tenta cadastrar o mesmo livro novamente (deve falhar)
+        response_duplicate = await client.post(
+            "/books/",
+            json={
+                "title": "Test Book",
+                "author": "Test Author",
+                "publication_date": "2023-01-01",
+                "summary": "Duplicate attempt"
+            },
+        )
+        assert response_duplicate.status_code == 400
+        assert response_duplicate.json()["detail"] == "Book already registered"
 
 @pytest.mark.asyncio
 async def test_read_books():
