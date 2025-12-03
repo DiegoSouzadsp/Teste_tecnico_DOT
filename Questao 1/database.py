@@ -2,7 +2,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 # URL de conexão com o banco de dados SQLite
-SQLALCHEMY_DATABASE_URL = "sqlite:///./library.db"
+# Garante que o DB seja criado no mesmo diretório deste arquivo
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SQLALCHEMY_DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'library.db')}"
 
 # Criação do engine do SQLAlchemy
 # connect_args={"check_same_thread": False} é necessário apenas para SQLite
