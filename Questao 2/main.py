@@ -1,4 +1,5 @@
 import sys
+import os
 from chatbot import PythonChatbot
 
 def main():
@@ -6,8 +7,9 @@ def main():
     print("Digite 'sair', 'exit' ou 'quit' para encerrar.\n")
 
     try:
-        # Inicializa o chatbot (pode levantar erro se sem API Key)
-        bot = PythonChatbot(model_name="gpt-4o-mini", temperature=0.3)
+        # Inicializa o chatbot (lê modelo do .env ou usa default)
+        model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+        bot = PythonChatbot(model_name=model, temperature=0.3)
         print(f"Modelo carregado: {bot.model_name}")
         print("-" * 40)
     except ValueError as e:

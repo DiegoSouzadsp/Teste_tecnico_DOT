@@ -41,7 +41,20 @@ Este projeto implementa um chatbot especialista em programação Python utilizan
 2.  Adicione sua chave da OpenAI:
     ```env
     OPENAI_API_KEY=sua-chave-aqui-sk-...
+    OPENAI_MODEL=gpt-4o-mini  # Opcional: gpt-4, gpt-3.5-turbo, etc.
     ```
+
+### Observabilidade (LangSmith)
+
+Este projeto é compatível nativamente com o **LangSmith** para tracing e monitoramento. Para ativar, basta adicionar as seguintes variáveis ao seu `.env`:
+
+```env
+LANGCHAIN_TRACING_V2=true
+LANGCHAIN_API_KEY=sua-chave-langchain
+LANGCHAIN_PROJECT=prova-backend-ia
+```
+
+Não é necessário alterar o código, pois a biblioteca `langchain` detecta essas variáveis automaticamente.
 
 > **Nota**: O arquivo `.env` já está no `.gitignore` para segurança.
 
@@ -55,11 +68,41 @@ python main.py
 
 ## Exemplos de Uso
 
-O chatbot aceita perguntas em linguagem natural. Exemplos:
+O chatbot aceita perguntas em linguagem natural. Abaixo, alguns exemplos reais de interação:
 
-*   *"Como criar uma lista em Python?"*
-*   *"Explique o conceito de decorators com um exemplo."*
-*   *"Qual a diferença entre tupla e lista?"*
+### Exemplo 1: Conceitos Básicos
+**Você:** "Qual a diferença entre tupla e lista?"
+**Bot:**
+> Em Python, a principal diferença é a **mutabilidade**:
+> *   **Listas (`[]`)**: São mutáveis, ou seja, você pode adicionar, remover ou alterar itens após a criação.
+> *   **Tuplas (`()`)**: São imutáveis. Uma vez criadas, não podem ser alteradas.
+>
+> Use tuplas para dados constantes e listas para coleções dinâmicas.
+
+### Exemplo 2: Código Prático
+**Você:** "Como criar uma lista em Python?"
+**Bot:**
+> Para criar uma lista, use colchetes `[]` separando os itens por vírgula:
+> ```python
+> frutas = ["maçã", "banana", "laranja"]
+> print(frutas[0])  # Saída: maçã
+> ```
+
+### Exemplo 3: Explicação Técnica
+**Você:** "Explique o que é list comprehension."
+**Bot:**
+> List comprehension é uma forma concisa de criar listas. Em vez de usar um loop `for` tradicional, você pode fazer em uma linha:
+>
+> ```python
+> # Tradicional
+> quadrados = []
+> for x in range(5):
+>     quadrados.append(x**2)
+>
+> # List Comprehension
+> quadrados = [x**2 for x in range(5)]
+> ```
+> É mais "pythônico" e geralmente mais rápido.
 
 ## Estrutura do Código
 
