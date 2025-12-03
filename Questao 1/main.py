@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from . import models, database
-from .routers import books
+import models, database
+from routers import books
 
 # Cria as tabelas no banco de dados
 models.Base.metadata.create_all(bind=database.engine)

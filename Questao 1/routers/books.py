@@ -7,7 +7,7 @@ from typing import List, Optional
 # Usando imports absolutos baseados no sys.path ou relativos se estivermos dentro do pacote.
 # Melhor abordagem para FastAPI simples: imports do mesmo diretório pai.
 
-from .. import crud, models, database
+import crud, models, database
 
 router = APIRouter(
     prefix="/books",
