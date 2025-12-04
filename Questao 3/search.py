@@ -5,7 +5,7 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 
 # Carrega variáveis de ambiente
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', 'Questao 2', '.env'))
+load_dotenv()
 
 def search(query: str, k: int = 3):
     index_path = os.path.join(os.path.dirname(__file__), 'faiss_index')
@@ -28,6 +28,7 @@ def search(query: str, k: int = 3):
     
     for i, (doc, score) in enumerate(results, 1):
         print(f"Resultado #{i} (Score: {score:.4f}):")
+        print(f"Fonte: {doc.metadata.get('source', 'Desconhecida')}")
         print(f"Conteúdo: {doc.page_content[:300]}...") # Exibe os primeiros 300 caracteres
         print(f"Página: {doc.metadata.get('page', 'N/A')}")
         print("-" * 20)
