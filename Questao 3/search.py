@@ -34,7 +34,7 @@ def search(query: str, k: int = 3):
         print("-" * 20)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Busca Semântica na Prova de Backend IA")
+    parser = argparse.ArgumentParser(description="Sistema de Busca Semântica em Documentos (RAG)")
     parser.add_argument("query", type=str, help="A pergunta ou termo de busca")
     parser.add_argument("--k", type=int, default=3, help="Número de resultados (default: 3)")
     
